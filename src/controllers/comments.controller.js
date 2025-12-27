@@ -1,7 +1,7 @@
 const prisma = require('../config/prisma')
 
 const getPostComments = async (req, res) => {
-    const postId = req.params.postId
+    const postId = Number(req.params.postId)
 
     const comments = await prisma.comment.findMany({
         where: { postId: postId },
@@ -12,18 +12,22 @@ const getPostComments = async (req, res) => {
 }
 
 const deleteComment = async (req, res) => {
-    const commentId = req.params.commentId
+    const commentId = Number(req.params.commentId)
 
     const comment = await prisma.comment.delete({
         where: { id: commentId }
     })
 
-    res.json(comment)
+    res.json({ message: "Comment deleted successfully", comment });
 }
 
 const editComment = async (req, res) => {
-    const commentId = req.params.commentId
+    const commentId = Number(req.params.commentId)
     const { content } = req.body
+
+    if (!content) {
+        return res.status(400).json({ error: "Content is required" });
+    }
 
     const comment = await prisma.comment.update({
         where: { id: commentId },
