@@ -40,6 +40,16 @@ const newPost = async (req, res) => {
     res.json(post)
 }
 
+const deletePost = async (req, res) => {
+    const postId = req.params.postId
+
+    const post = await prisma.post.delete({
+        where: { id: postId }
+    })
+
+    res.json(post)
+}
+
 const editPost = async (req, res) => {
     const { title, content, authorId, published } = req.body
     const postid = req.params.postId
@@ -63,5 +73,6 @@ exports.module = {
     getAllPublishedPosts,
     getPostById,
     newPost,
+    deletePost,
     editPost
 }
