@@ -27,7 +27,6 @@ const login = async (req, res) => {
         } catch (error) {
             res.status(500).json({ messsage: "Server error" })
         }
-    
 }
 
 const register = async (req, res) => {

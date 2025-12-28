@@ -16,7 +16,7 @@ const getAllPublishedPosts = async (req, res) => {
 }
 
 const getPostById = async (req, res) => {
-    const postId = req.params.id
+    const postId = req.params.postId
     
     const post = await prisma.post.findUnique({
         where: { id: postId }
@@ -33,7 +33,7 @@ const newPost = async (req, res) => {
             title,
             content,
             authorId,
-            published: published ? true : false,
+            published
         }
     })
 
@@ -60,7 +60,7 @@ const editPost = async (req, res) => {
             title,
             content,
             authorId,
-            published: published ? true : false,
+            published,
             updated: true
         }
     })
