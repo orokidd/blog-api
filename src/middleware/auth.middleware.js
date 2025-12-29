@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 
-const authenticate = (req, res, next) => {
+const loginAuthenticate = (req, res, next) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -21,4 +21,15 @@ const authenticate = (req, res, next) => {
     }
 }
 
-module.exports = authenticate
+const roleAuthenticate = (req, res, next) => {
+    if (req.user.role !== "ADMIN") {
+        return res.status(403).json({message: "Forbidden: You do not have the required permissions"})
+    }
+
+    next()
+}
+
+module.exports = {
+    loginAuthenticate,
+    roleAuthenticate
+}
