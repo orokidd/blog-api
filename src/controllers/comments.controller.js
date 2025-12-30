@@ -11,6 +11,26 @@ const getPostComments = async (req, res) => {
     res.json(comments)
 }
 
+const newComment = async (req, res) => {
+    const postId = Number(req.params.postId)
+    const comment = req.body.comment
+    const userId = req.user.id
+
+    if (!comment || comment.trim() === "") {
+        return res.status(400).json({ message: "Comment content cannot be empty." });
+    }
+    
+    await prisma.comment.create({
+        data: {
+            content: comment,
+            userId,
+            postId
+        }
+    })
+
+    res.status(200).json({ message: 'Comment posted successfully.', newComment})
+}
+
 const deleteComment = async (req, res) => {
     const commentId = Number(req.params.commentId)
     const userId = req.user.id
@@ -57,6 +77,7 @@ const editComment = async (req, res) => {
 
 module.exports = {
     getPostComments,
+    newComment,
     deleteComment,
     editComment
 }

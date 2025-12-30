@@ -26,14 +26,19 @@ const getPostById = async (req, res) => {
 }
 
 const newPost = async (req, res) => {
-    const { title, content, authorId, published } = req.body
+    const { title, content, published } = req.body
+    const userId = req.user.id
+
+    if (!title || !content) {
+        return res.status(400).json({ message: "Title and content are required" });
+    }
     
     const post = await prisma.post.create({
         data: {
             title,
             content,
-            authorId,
-            published
+            authorId: Number(userId),
+            published: published || false
         }
     })
 
@@ -51,16 +56,20 @@ const deletePost = async (req, res) => {
 }
 
 const editPost = async (req, res) => {
-    const { title, content, authorId, published } = req.body
-    const postid = req.params.postId
+    const { title, content, published } = req.body
+    const userId = req.user.id
+
+    if (!title || !content) {
+        return res.status(400).json({ message: "Title and content are required" });
+    }
 
     const post = await prisma.post.update({
         where: { id: postid },
         data: {
             title,
             content,
-            authorId,
-            published,
+            authorId: Number(userId),
+            published: published || false,
             updated: true
         }
     })
