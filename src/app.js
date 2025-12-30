@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/api/auth', routes.auth)
 app.use('/api/posts', routes.posts)
 app.use('/api/comments', routes.comments)
-app.use('/api/users', routes.users)
+// app.use('/api/users', routes.users)
 
 app.get('/', (req, res)=> {
     res.send("API Running")
@@ -20,3 +20,5 @@ app.get('/', (req, res)=> {
 app.use((err, req, res, next) => {
     res.status(500).send(`Server error: ${err}`)
 })
+
+module.exports = app

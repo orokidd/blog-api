@@ -17,7 +17,7 @@ const login = async (req, res) => {
             
         const paylod = {
             id: user.id,
-            username: user.username
+            username: user.username,
             role: user.role
         }
             

@@ -68,7 +68,7 @@ const editPost = async (req, res) => {
     res.json(post)
 }
 
-exports.module = {
+module.exports = {
     getAllPosts,
     getAllPublishedPosts,
     getPostById,
