@@ -17,9 +17,11 @@ const getAllPublishedPosts = async (req, res) => {
 
 const getPostById = async (req, res) => {
     const postId = req.params.postId
-    
+    const id = Number(postId)
+    if (Number.isNaN(id)) return res.status(400).json({ message: 'Invalid post id' })
+
     const post = await prisma.post.findUnique({
-        where: { id: postId }
+        where: { id }
     })
 
     res.json(post)
@@ -47,9 +49,11 @@ const newPost = async (req, res) => {
 
 const deletePost = async (req, res) => {
     const postId = req.params.postId
+    const id = Number(postId)
+    if (Number.isNaN(id)) return res.status(400).json({ message: 'Invalid post id' })
 
     const post = await prisma.post.delete({
-        where: { id: postId }
+        where: { id }
     })
 
     res.json(post)
@@ -63,8 +67,12 @@ const editPost = async (req, res) => {
         return res.status(400).json({ message: "Title and content are required" });
     }
 
+    const postId = req.params.postId
+    const id = Number(postId)
+    if (Number.isNaN(id)) return res.status(400).json({ message: 'Invalid post id' })
+
     const post = await prisma.post.update({
-        where: { id: postid },
+        where: { id },
         data: {
             title,
             content,
