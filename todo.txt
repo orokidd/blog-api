@@ -1,2 +1,1 @@
-- test api endpoint with postman
-- setup frontend with react
+- add try catch in posts and comments controller
