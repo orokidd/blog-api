@@ -7,7 +7,7 @@ const login = async (req, res) => {
 
     try {
         const user = await prisma.user.findUnique({
-        where: { username: username }
+            where: { username: username }
         })
     
         if (!user) return res.status(400).json({ message: "Invalid username or password" })
