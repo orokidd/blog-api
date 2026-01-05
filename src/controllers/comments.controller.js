@@ -24,16 +24,24 @@ const newComment = async (req, res) => {
     if (!comment || comment.trim() === "") {
         return res.status(400).json({ message: "Comment content cannot be empty." });
     }
-    
-    await prisma.comment.create({
+
+    const createdComment = await prisma.comment.create({
         data: {
             content: comment,
             userId,
             postId
+        },
+        include: {
+            user: {
+                select: {
+                    username: true,
+                    id: true  // Include id if needed for comparison
+                }
+            }
         }
     })
 
-    res.status(200).json({ message: 'Comment posted successfully.', newComment})
+    res.status(200).json({ message: 'Comment posted successfully.', createdComment})
 }
 
 const deleteComment = async (req, res) => {
