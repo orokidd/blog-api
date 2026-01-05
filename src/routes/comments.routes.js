@@ -7,7 +7,7 @@ router.get('/post/:postId', commentsController.getPostComments)
 
 router.post('/post/:postId', middleware.loginAuthenticate, commentsController.newComment)
 
-router.delete('/:commentId', middleware.loginAuthenticate, middleware.roleAuthenticate, commentsController.deleteComment)
+router.delete('/:commentId', middleware.loginAuthenticate, commentsController.deleteComment)
 
 router.put('/:commentId', middleware.loginAuthenticate, middleware.roleAuthenticate, commentsController.editComment)
 
