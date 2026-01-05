@@ -38,13 +38,13 @@ const newComment = async (req, res) => {
 
 const deleteComment = async (req, res) => {
     const commentId = Number(req.params.commentId)
-    const userId = req.user.id
+    const loggedInUserId = req.user.id
 
     const comment = await prisma.comment.findUnique({
         where: { id: commentId }
     });
 
-    if (comment.authorId !== userId) {
+    if (comment.userId !== loggedInUserId) {
         return res.status(403).json({ message: "You can only delete your own comments" });
     }
 
@@ -57,14 +57,14 @@ const deleteComment = async (req, res) => {
 
 const editComment = async (req, res) => {
     const commentId = Number(req.params.commentId)
-    const userId = req.user.id
+    const loggedInUserId = req.user.id
     const { content } = req.body
 
     const comment = await prisma.comment.findUnique({
         where: { id: commentId }
     });
 
-    if (comment.authorId !== userId) {
+    if (comment.userId !== loggedInUserId) {
         return res.status(403).json({ message: "You can only edit your own comments" });
     }
 
