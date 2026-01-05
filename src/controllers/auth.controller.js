@@ -15,18 +15,18 @@ const login = async (req, res) => {
         const passwordMatch = await bcrypt.compare(password, user.password)
         if (!passwordMatch) return res.status(400).json({ message: "Invalid username or password"})
             
-        const paylod = {
+        const payload = {
             id: user.id,
             username: user.username,
             role: user.role
         }
             
-        const token = jwt.sign(paylod, process.env.JWT_SECRET, {expiresIn: '1h'})
+        const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: '1h'})
             
         res.status(200).json({token})
 
         } catch (error) {
-            res.status(500).json({ messsage: "Server error" })
+            res.status(500).json({ message: "Server error" })
         }
 }
 
@@ -63,7 +63,7 @@ const register = async (req, res) => {
         res.status(200).json({message: "User created successfully"})
 
     } catch (error) {
-        res.status(500).json({ messsage: "Server error" })
+        res.status(500).json({ message: "Server error" })
     }
 }
 
