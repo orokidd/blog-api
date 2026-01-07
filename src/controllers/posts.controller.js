@@ -40,7 +40,8 @@ const newPost = async (req, res) => {
             title,
             content,
             authorId: Number(userId),
-            published: published || false
+            published: published,
+            updated: false
         }
     })
 
