@@ -46,14 +46,21 @@ const newComment = async (req, res) => {
 
 const deleteComment = async (req, res) => {
     const commentId = Number(req.params.commentId)
-    const loggedInUserId = req.user.id
+    const loggedInUser = req.user
 
     const comment = await prisma.comment.findUnique({
         where: { id: commentId }
     });
 
-    if (comment.userId !== loggedInUserId) {
-        return res.status(403).json({ message: "You can only delete your own comments" });
+    if (!comment) {
+        return res.status(404).json({message: "Comment not found"})
+    }
+
+    const isOwner = comment.userId === loggedInUser.id
+    const isAdmin = loggedInUser.role === 'ADMIN'
+
+    if (!isOwner && !isAdmin) {
+        return res.status(403).json({ message: "You are not allowed to delete this comment" });
     }
 
     await prisma.comment.delete({
