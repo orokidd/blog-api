@@ -1,7 +1,9 @@
 const prisma = require('../config/prisma')
 
 const getAllPosts = async (req, res) => {
-    const posts = await prisma.post.findMany();
+    const posts = await prisma.post.findMany({
+        orderBy: { createdAt: 'desc' }
+    });
 
     res.json(posts)
 }
