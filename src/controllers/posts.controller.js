@@ -29,6 +29,31 @@ const getPostById = async (req, res) => {
     res.json(post)
 }
 
+const searchPostByTitle = async (req, res) => {
+  try {
+    const { title } = req.query;
+
+    if (!title) {
+      return res.status(400).json({ message: "Title query is required" });
+    }
+
+    const posts = await prisma.post.findMany({
+      where: {
+        title: {
+          contains: title,
+          mode: "insensitive",
+        },
+      },
+    });
+
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
 const newPost = async (req, res) => {
     const { title, content, published } = req.body
     const userId = req.user.id
@@ -94,5 +119,6 @@ module.exports = {
     getPostById,
     newPost,
     deletePost,
-    editPost
+    editPost,
+    searchPostByTitle
 }
