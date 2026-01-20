@@ -29,20 +29,21 @@ const getPostById = async (req, res) => {
     res.json(post)
 }
 
-const searchPostByTitle = async (req, res) => {
+const sortPosts = async (req, res) => {
   try {
-    const { title } = req.query;
-
-    if (!title) {
-      return res.status(400).json({ message: "Title query is required" });
-    }
+    const { title, sort, order } = req.query;
 
     const posts = await prisma.post.findMany({
-      where: {
-        title: {
-          contains: title,
-          mode: "insensitive",
-        },
+      where: title
+        ? {
+            title: {
+              contains: title,
+              mode: "insensitive",
+            },
+          }
+        : undefined,
+      orderBy: {
+        [sort]: order,
       },
     });
 
@@ -120,5 +121,5 @@ module.exports = {
     newPost,
     deletePost,
     editPost,
-    searchPostByTitle
+    sortPosts
 }

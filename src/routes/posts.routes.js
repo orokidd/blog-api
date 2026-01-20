@@ -5,7 +5,7 @@ const router = express.Router()
 
 router.get('/', postsController.getAllPosts)
 router.get('/published', postsController.getAllPublishedPosts)
-router.get('/search', postsController.searchPostByTitle)
+router.get('/search', postsController.sortPosts)
 router.get('/:postId', postsController.getPostById)
 
 router.post('/', middleware.loginAuthenticate, middleware.roleAuthenticate, postsController.newPost)
